@@ -21,7 +21,7 @@ public class Code {
     @Column(name = "code_id")
     private Integer codeId;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @Column(name = "type_code", nullable = false, unique = true)
