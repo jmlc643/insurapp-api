@@ -24,7 +24,7 @@ public class Code {
     @Column(name = "code", nullable = false, unique = true)
     private String code;
 
-    @Column(name = "type_code", nullable = false, unique = true)
+    @Column(name = "type_code", nullable = false)
     @Enumerated(EnumType.STRING)
     private TypeCode typeCode;
 
