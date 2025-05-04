@@ -21,18 +21,18 @@ public class Code {
     @Column(name = "code_id")
     private Integer codeId;
 
-    @Column(name = "code", nullable = false, unique = true)
+    @Column(name = "code", length = 6, nullable = false, unique = true)
     private String code;
 
     @Column(name = "type_code", nullable = false)
     @Enumerated(EnumType.STRING)
     private TypeCode typeCode;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private EStatus status;
 
-    @Column(name = "expired_date")
+    @Column(name = "expired_date", nullable = false)
     private LocalDateTime expiredDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
