@@ -67,10 +67,8 @@ public class AuthService {
             codeRepository.save(lastCode);
             throw new ExpiredCodeException("El código ha expirado");
         }
-        if(lastCode.getTypeCode() == TypeCode.ACTIVATE) {
-            lastCode.setStatus(EStatus.VERIFIED);
-            codeRepository.save(lastCode);
-        }
+        lastCode.setStatus(EStatus.VERIFIED);
+        codeRepository.save(lastCode);
         return null;
     }
 
