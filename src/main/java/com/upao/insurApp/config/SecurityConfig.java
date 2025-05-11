@@ -36,9 +36,9 @@ public class SecurityConfig {
         return httpSecurity.
                 csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(HttpMethod.GET, "/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.PATCH, "/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.PATCH, "/api/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     auth.anyRequest().authenticated();
                 })
