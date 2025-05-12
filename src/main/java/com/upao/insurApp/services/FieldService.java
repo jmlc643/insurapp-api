@@ -24,6 +24,10 @@ public class FieldService {
         this.reserveRepository = reserveRepository;
     }
 
+    public List<Field> getAllFields() {
+        return fieldRepository.findAll();
+    }
+
     public List<Field> findByTypeField(String typeField) {
         return fieldRepository.findByTypeField(typeField);
     }

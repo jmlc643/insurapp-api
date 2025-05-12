@@ -36,8 +36,15 @@ public class FieldController {
         return ResponseEntity.ok(fieldRepository.save(field));
     }
 
-    // Buscar campos por tipo
+    // Se lista las canchas deportivas
     @GetMapping("/search")
+    public ResponseEntity<List<Field>> getAllFields() {
+        List<Field> fields = fieldService.getAllFields();
+        return ResponseEntity.ok(fields);
+    }
+
+    // Buscar campos por tipo
+    @GetMapping("/searchTypeField")
     public ResponseEntity<List<Field>> buscarFieldsPorTipo(@RequestParam String typeField) {
         return ResponseEntity.ok(fieldService.findByTypeField(typeField));
     }
