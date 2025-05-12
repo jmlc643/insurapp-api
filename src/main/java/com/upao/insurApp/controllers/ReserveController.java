@@ -11,6 +11,8 @@ import com.upao.insurApp.repos.UserRepository;
 import com.upao.insurApp.services.ReserveService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -42,7 +44,9 @@ public class ReserveController {
     // Crea la reserva y se valida si hay o no disponibilidad para tal hora
     @PostMapping("/createReserve")
     public ResponseEntity<?> createReservation(@RequestBody ReserveRequestDTO dto) {
-        Optional<User> userOpt = userRepository.findById(dto.getUserId());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Integer userId = Integer.valueOf(authentication.getName());
+        Optional<User> userOpt = userRepository.findById(userId);
         Optional<Field> fieldOpt = fieldRepository.findById(dto.getFieldId());
 
         if (userOpt.isEmpty() || fieldOpt.isEmpty()) {
