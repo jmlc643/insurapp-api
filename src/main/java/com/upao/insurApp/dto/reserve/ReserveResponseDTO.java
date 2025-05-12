@@ -11,7 +11,7 @@ public class ReserveResponseDTO {
     private LocalDate bookingDate;
     private LocalTime timetableStart;
     private LocalTime timetableEnd;
-    private Double price;
+    private Integer totalPrice;
     private FieldResponseDTO fieldId;
     private Integer userId;
 
@@ -20,7 +20,7 @@ public class ReserveResponseDTO {
         this.bookingDate = reserve.getBookingDate();
         this.timetableStart = reserve.getTimetableStart();
         this.timetableEnd = reserve.getTimetableEnd();
-        this.price = reserve.getPrice();
+        this.totalPrice = reserve.getTotalPrice();
         this.fieldId = new FieldResponseDTO(reserve.getField());
         this.userId = reserve.getUser().getUserId();
     }
@@ -41,8 +41,8 @@ public class ReserveResponseDTO {
         return timetableEnd;
     }
 
-    public Double getPrice() {
-        return price;
+    public Integer getTotalPrice() {
+        return totalPrice;
     }
 
     public FieldResponseDTO getFieldId() {

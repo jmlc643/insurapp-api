@@ -56,7 +56,7 @@ public class ReserveController {
 
         Reserve reserve = new Reserve();
         reserve.setBookingDate(dto.getBookingDate());
-        reserve.setPrice(dto.getPrice());
+        reserve.setTotalPrice(dto.getTotalPrice());
         reserve.setTimetableStart(dto.getTimetableStart());
         reserve.setTimetableEnd(dto.getTimetableEnd());
         reserve.setUser(userOpt.get());

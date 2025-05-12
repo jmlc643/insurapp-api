@@ -7,7 +7,7 @@ public class ReserveRequestDTO {
     private LocalDate bookingDate;
     private LocalTime timetableStart;
     private LocalTime timetableEnd;
-    private Double price;
+    private Integer totalPrice;
     private Integer userId;
     private Integer fieldId;
 
@@ -23,8 +23,8 @@ public class ReserveRequestDTO {
         return timetableEnd;
     }
 
-    public Double getPrice() {
-        return price;
+    public Integer getTotalPrice() {
+        return totalPrice;
     }
 
     public Integer getUserId() {

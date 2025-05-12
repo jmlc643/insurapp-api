@@ -1,7 +1,6 @@
 package com.upao.insurApp.controllers;
 
 import com.upao.insurApp.dto.field.FieldRequestDTO;
-import com.upao.insurApp.dto.field.FieldResponseDTO;
 import com.upao.insurApp.models.Field;
 import com.upao.insurApp.models.Reserve;
 import com.upao.insurApp.repos.FieldRepository;
@@ -29,7 +28,7 @@ public class FieldController {
     @PostMapping("/createField")
     public ResponseEntity<Field> createField(@RequestBody FieldRequestDTO dto) {
         Field field = new Field();
-        field.setDescription(dto.getDescription());
+        field.setPrice(dto.getPrice());
         field.setTypeField(dto.getTypeField());
         field.setNumberField(dto.getNumberField());
 

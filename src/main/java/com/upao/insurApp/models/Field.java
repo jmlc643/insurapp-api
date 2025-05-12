@@ -21,8 +21,8 @@ public class Field {
     @Column(name = "field_id")
     private int fieldId;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "price")
+    private Integer price;
 
     @Column(name = "typeField")
     private String typeField;
@@ -30,8 +30,8 @@ public class Field {
     @Column(name = "numberField")
     private int numberField;
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public void setTypeField(String typeField) {
