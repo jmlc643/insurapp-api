@@ -29,8 +29,8 @@ public class Reserve {
     @Column(name = "timetable_end")
     private LocalTime timetableEnd;
 
-    @Column(name = "price")
-    private Double price;
+    @Column(name = "totalPrice")
+    private Integer totalPrice;
 
     public void setBookingDate(LocalDate bookingDate) {
         this.bookingDate = bookingDate;
@@ -44,8 +44,8 @@ public class Reserve {
         this.timetableEnd = timetableEnd;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setTotalPrice(Integer totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public void setField(Field field) {

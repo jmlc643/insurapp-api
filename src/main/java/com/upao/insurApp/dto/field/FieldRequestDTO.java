@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class FieldRequestDTO {
-    private String description;
+    private Integer price;
     private String typeField;
     private Integer numberField;
 }

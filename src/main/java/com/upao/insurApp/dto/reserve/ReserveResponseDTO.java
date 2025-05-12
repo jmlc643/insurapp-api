@@ -20,7 +20,7 @@ public class ReserveResponseDTO {
         this.bookingDate = reserve.getBookingDate();
         this.timetableStart = reserve.getTimetableStart();
         this.timetableEnd = reserve.getTimetableEnd();
-        this.price = reserve.getPrice();
+        this.price = reserve.getTotalPrice();
         this.fieldId = new FieldResponseDTO(reserve.getField());
         this.userId = reserve.getUser().getUserId();
     }
