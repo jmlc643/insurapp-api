@@ -40,6 +40,7 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.PATCH, "/api/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+                    auth.requestMatchers("/doc/**", "/v3/api-docs/**").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
