@@ -19,7 +19,7 @@ public class Field {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "field_id")
-    private int fieldId;
+    private Integer fieldId;
 
     @Column(name = "price")
     private Integer price;
@@ -28,7 +28,7 @@ public class Field {
     private String typeField;
 
     @Column(name = "numberField")
-    private int numberField;
+    private Integer numberField;
 
     public void setPrice(Integer price) {
         this.price = price;
@@ -38,7 +38,7 @@ public class Field {
         this.typeField = typeField;
     }
 
-    public void setNumberField(int numberField) {
+    public void setNumberField(Integer numberField) {
         this.numberField = numberField;
     }
 
