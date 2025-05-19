@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -65,5 +67,8 @@ public class Reserve {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
+
+    @OneToMany(mappedBy = "reserve", cascade = CascadeType.ALL)
+    private List<Payment> payments = new ArrayList<>();
 
 }
