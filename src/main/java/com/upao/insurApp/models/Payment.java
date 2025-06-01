@@ -21,7 +21,7 @@ public class Payment {
     private Integer paymentId;
 
     @Column(name = "amount", nullable = false)
-    private Double amount;
+    private Integer amount;
 
     @Column(name = "payment_date", nullable = false)
     private LocalDateTime paymentDate;

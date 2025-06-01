@@ -26,7 +26,7 @@ public class PaymentService {
 
     public PaymentResponse generatePayment(CreatePaymentDTO request) {
         Reserve reserve = reserveRepository.findById(request.getReserveId()).orElseThrow(() -> new ResourceNotExistsException("La reserva no existe"));
-        Payment payment = new Payment(null, request.getAmount(), LocalDateTime.now(), PaymentStatus.PENDING, reserve);
+        Payment payment = new Payment(null, reserve.getTotalPrice(), LocalDateTime.now(), PaymentStatus.PENDING, reserve);
         paymentRepository.save(payment);
         OrderResponse order = payPalService.createOrder(payment.getPaymentId(), request.getReturnUrl(), request.getCancelUrl());
 
