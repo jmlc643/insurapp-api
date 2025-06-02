@@ -15,6 +15,7 @@ import com.upao.insurApp.services.ReserveService;
 import com.upao.insurApp.utils.JwtUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -72,13 +73,6 @@ public class ReserveController {
     // Se valida como rol ADMIN la reserva
     @PatchMapping("/validate/{id}")
     public ResponseEntity<?> validateReservation(@PathVariable Integer id) {
-        // Verificar que el usuario tenga el rol ADMIN
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getAuthorities().stream()
-                .noneMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes permiso para validar esta reserva.");
-        }
-
         try {
             Reserve validatedReserve = reserveService.validateReservation(id);
             return ResponseEntity.ok(new ReserveResponseDTO(validatedReserve));
