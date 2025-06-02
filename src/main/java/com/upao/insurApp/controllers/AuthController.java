@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @GetMapping("/validate-code/{code}")
-    public ResponseEntity<Void> validateCode(@PathVariable String code) {
+    public ResponseEntity<AuthResponseDTO> validateCode(@PathVariable String code) {
         return new ResponseEntity<>(authService.validateCode(code), HttpStatus.OK);
     }
 
