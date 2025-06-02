@@ -8,11 +8,14 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtils {
@@ -27,7 +30,9 @@ public class JwtUtils {
         Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
 
         String username = authentication.getPrincipal().toString();
-        String authorities = authentication.getAuthorities().toString();
+        List<String> authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
 
         return JWT.create()
                 .withIssuer(userGenerator)
@@ -51,6 +56,17 @@ public class JwtUtils {
         } catch (JWTVerificationException e){
             throw new JWTVerificationException("Token inválido, no estás autorizado");
         }
+    }
+
+    public String generateTokenForReservation(Integer reserveId) {
+        Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
+        return JWT.create()
+                .withIssuer(userGenerator)
+                .withSubject("QR_RESERVATION")
+                .withClaim("reserveId", reserveId)
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 3600_000)) // 1 hora
+                .sign(algorithm);
     }
 
     public String extractUsername(DecodedJWT decodedJWT){

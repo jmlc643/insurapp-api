@@ -34,29 +34,28 @@ public class Reserve {
     @Column(name = "totalPrice")
     private Integer totalPrice;
 
-    public void setBookingDate(LocalDate bookingDate) {
-        this.bookingDate = bookingDate;
-    }
+    @Column(name = "qr_url")
+    private String qrUrl;
 
-    public void setTimetableStart(LocalTime timetableStart) {
-        this.timetableStart = timetableStart;
-    }
+    @Column(name = "is_validated")
+    private Boolean isValidated = false;
 
-    public void setTimetableEnd(LocalTime timetableEnd) {
-        this.timetableEnd = timetableEnd;
-    }
+    public void setBookingDate(LocalDate bookingDate) {this.bookingDate = bookingDate;}
 
-    public void setTotalPrice(Integer totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+    public void setTimetableStart(LocalTime timetableStart) {this.timetableStart = timetableStart;}
 
-    public void setField(Field field) {
-        this.field = field;
-    }
+    public void setTimetableEnd(LocalTime timetableEnd) {this.timetableEnd = timetableEnd;}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public void setTotalPrice(Integer totalPrice) {this.totalPrice = totalPrice;}
+
+    public void setField(Field field) {this.field = field;}
+
+    public void setQrUrl(String qrUrl) {this.qrUrl = qrUrl;}
+
+    public void setUser(User user) {this.user = user;}
+
+    public void setIsValidated(Boolean isValidated) {this.isValidated = isValidated;}
+
 
     @ManyToOne
     @JoinColumn(name = "field_id")

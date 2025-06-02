@@ -18,6 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class JwtTokenValidator extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
@@ -38,13 +40,13 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             DecodedJWT decodedJWT = jwtUtils.validateJWT(jwtToken);
 
             String username = jwtUtils.extractUsername(decodedJWT);
-            String stringAuthorities = jwtUtils.extractSpecificClaim(decodedJWT, "authorities").asString();
+            List<String> roles = jwtUtils.extractSpecificClaim(decodedJWT, "authorities").asList(String.class);
+            Collection<? extends GrantedAuthority> authorities = roles != null
+                    ? AuthorityUtils.createAuthorityList(roles.toArray(new String[0]))
+                    : Collections.emptyList();
 
-            Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
-            SecurityContext context = SecurityContextHolder.getContext();
             Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
-            context.setAuthentication(authentication);
-            SecurityContextHolder.setContext(context);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }
