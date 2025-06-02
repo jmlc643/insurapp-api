@@ -1,7 +1,9 @@
 package com.upao.insurApp.controllers;
 
+import com.upao.insurApp.dto.field.AvailableTimeDTO;
 import com.upao.insurApp.dto.field.FieldDTO;
 import com.upao.insurApp.dto.field.FieldRequestDTO;
+import com.upao.insurApp.dto.field.FieldResponseDTO;
 import com.upao.insurApp.models.Field;
 import com.upao.insurApp.models.Reserve;
 import com.upao.insurApp.repos.FieldRepository;
@@ -36,6 +38,11 @@ public class FieldController {
         return ResponseEntity.ok(fieldRepository.save(field));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<FieldResponseDTO> getField(@PathVariable int id) {
+        return ResponseEntity.ok(fieldService.getField(id));
+    }
+
     // Se lista las canchas deportivas
     @GetMapping("/search")
     public ResponseEntity<List<FieldDTO>> getAllFields() {
@@ -60,7 +67,7 @@ public class FieldController {
 
     // Mostrar horarios disponibles para un campo en específico de una fecha
     @GetMapping("/{fieldId}/available-times")
-    public ResponseEntity<List<String>> getAvailableTimes(
+    public ResponseEntity<List<AvailableTimeDTO>> getAvailableTimes(
             @PathVariable Integer fieldId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate bookingDate) {
 
