@@ -33,20 +33,28 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
+
+        String path = request.getRequestURI();
+        if (path.contains("/api/reservations/validate-info")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if(jwtToken != null && jwtToken.startsWith("Bearer")){
             jwtToken = jwtToken.substring(7); // Extract only token
-            DecodedJWT decodedJWT = jwtUtils.validateJWT(jwtToken);
-
-            String username = jwtUtils.extractUsername(decodedJWT);
-            List<String> roles = jwtUtils.extractSpecificClaim(decodedJWT, "authorities").asList(String.class);
-            Collection<? extends GrantedAuthority> authorities = roles != null
-                    ? AuthorityUtils.createAuthorityList(roles.toArray(new String[0]))
-                    : Collections.emptyList();
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                DecodedJWT decodedJWT = jwtUtils.validateJWT(jwtToken);
+                String username = jwtUtils.extractUsername(decodedJWT);
+                String stringAuthorities = jwtUtils.extractSpecificClaim(decodedJWT, "authorities").asString();
+                Collection<? extends GrantedAuthority> authorities =
+                        AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (Exception e) {
+                System.out.println("Error validando token JWT: " + e.getMessage());
+            }
         }
         filterChain.doFilter(request, response);
     }
