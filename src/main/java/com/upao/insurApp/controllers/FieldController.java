@@ -1,5 +1,6 @@
 package com.upao.insurApp.controllers;
 
+import com.upao.insurApp.dto.field.FieldDTO;
 import com.upao.insurApp.dto.field.FieldRequestDTO;
 import com.upao.insurApp.models.Field;
 import com.upao.insurApp.models.Reserve;
@@ -37,8 +38,8 @@ public class FieldController {
 
     // Se lista las canchas deportivas
     @GetMapping("/search")
-    public ResponseEntity<List<Field>> getAllFields() {
-        List<Field> fields = fieldService.getAllFields();
+    public ResponseEntity<List<FieldDTO>> getAllFields() {
+        List<FieldDTO> fields = fieldService.getAllFields();
         return ResponseEntity.ok(fields);
     }
 

@@ -1,5 +1,6 @@
 package com.upao.insurApp.services;
 
+import com.upao.insurApp.dto.field.FieldDTO;
 import com.upao.insurApp.models.Field;
 import com.upao.insurApp.models.Reserve;
 import com.upao.insurApp.repos.FieldRepository;
@@ -10,7 +11,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,8 +24,10 @@ public class FieldService {
         this.reserveRepository = reserveRepository;
     }
 
-    public List<Field> getAllFields() {
-        return fieldRepository.findAll();
+    public List<FieldDTO> getAllFields() {
+        return fieldRepository.findAll().stream()
+                .map(FieldDTO::new)
+                .collect(Collectors.toList());
     }
 
     public List<Field> findByTypeField(String typeField) {
