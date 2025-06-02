@@ -70,7 +70,7 @@ public class PayPalService {
 
         Amount amount = new Amount();
         amount.setCurrencyCode("USD");
-        amount.setValue(String.valueOf(payment.getAmount()));
+        amount.setValue(payment.getAmount() + ".00");
 
         PurchaseUnit purchaseUnit = new PurchaseUnit();
         purchaseUnit.setReferenceId(payment.getPaymentId().toString());
