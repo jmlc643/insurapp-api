@@ -71,8 +71,9 @@ public class ReserveController {
 
     // Se valida como rol ADMIN la reserva
     @PatchMapping("/validate/{id}")
-    public ResponseEntity<?> validateReservation(@PathVariable Integer id, Authentication authentication) {
+    public ResponseEntity<?> validateReservation(@PathVariable Integer id) {
         // Verificar que el usuario tenga el rol ADMIN
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getAuthorities().stream()
                 .noneMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes permiso para validar esta reserva.");
