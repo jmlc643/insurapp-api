@@ -7,6 +7,7 @@ import com.upao.insurApp.models.User;
 import com.upao.insurApp.repos.ReserveRepository;
 import com.upao.insurApp.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,6 +20,8 @@ public class ReserveService {
     private final ReserveRepository reserveRepository;
     private final QrCodeService qrCodeService;
     private final JwtUtils jwtUtils;
+    @Value("${validate.reservation}")
+    private String urlValidateReservation;
 
     @Autowired
     public ReserveService(ReserveRepository reserveRepository, QrCodeService qrCodeService, JwtUtils jwtUtils){
@@ -53,7 +56,7 @@ public class ReserveService {
     // Create reserve and QR
     public Reserve createReservation(Reserve reserve) throws Exception {
         Reserve saved = reserveRepository.save(reserve);
-        String qrData = "http://localhost:8080/api/reservations/validate-info?id=" + saved.getReserveId();
+        String qrData = urlValidateReservation + saved.getReserveId();
         String qrUrl = qrCodeService.generateQRAndUpload(qrData, "reserve_" + saved.getReserveId());
         saved.setQrUrl(qrUrl);
         Reserve updated = reserveRepository.save(saved);
