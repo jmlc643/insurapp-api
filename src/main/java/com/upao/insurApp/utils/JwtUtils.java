@@ -48,13 +48,14 @@ public class JwtUtils {
     public DecodedJWT validateJWT(String token){
         try{
             Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
-            JWTVerifier jwtVerifier = JWT.require(algorithm)
-                    .withIssuer(this.userGenerator)
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer(userGenerator)
                     .build();
 
-            return jwtVerifier.verify(token);
-        } catch (JWTVerificationException e){
-            throw new JWTVerificationException("Token inválido, no estás autorizado");
+            DecodedJWT decoded = verifier.verify(token);
+            return decoded;
+        } catch (JWTVerificationException e) {
+            throw new RuntimeException("No autorizado - token inválido o ausente");
         }
     }
 

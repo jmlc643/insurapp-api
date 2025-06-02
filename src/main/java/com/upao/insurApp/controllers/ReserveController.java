@@ -1,5 +1,8 @@
 package com.upao.insurApp.controllers;
 
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.upao.insurApp.dto.reserve.ReserveDTO;
 import com.upao.insurApp.dto.reserve.ReserveRequestDTO;
 import com.upao.insurApp.dto.reserve.ReserveResponseDTO;
 import com.upao.insurApp.models.Field;
@@ -66,6 +69,7 @@ public class ReserveController {
         return ResponseEntity.ok(new ReserveResponseDTO(saved));
     }
 
+    // Se valida como rol ADMIN la reserva
     @PatchMapping("/validate/{id}")
     public ResponseEntity<?> validateReservation(@PathVariable Integer id, Authentication authentication) {
         // Verificar que el usuario tenga el rol ADMIN
@@ -80,6 +84,19 @@ public class ReserveController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
+
+    // Muestra la info al escanear el código QR
+    @GetMapping("/validate-info")
+    public ResponseEntity<?> getReservationInfoFromQr(@RequestParam("id") Integer reserveId) {
+        Optional<Reserve> reserveOpt = reserveRepository.findById(reserveId);
+
+        if (reserveOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reserva no encontrada.");
+        }
+
+        ReserveDTO dto = new ReserveDTO(reserveOpt.get());
+        return ResponseEntity.ok(dto);
     }
 
 }

@@ -53,8 +53,7 @@ public class ReserveService {
     // Create reserve and QR
     public Reserve createReservation(Reserve reserve) throws Exception {
         Reserve saved = reserveRepository.save(reserve);
-        String token = jwtUtils.generateTokenForReservation(saved.getReserveId());
-        String qrData = "http://localhost:8080/api/reservations/validate?id=" + saved.getReserveId() + "&token=" + token;
+        String qrData = "http://localhost:8080/api/reservations/validate-info?id=" + saved.getReserveId();
         String qrUrl = qrCodeService.generateQRAndUpload(qrData, "reserve_" + saved.getReserveId());
         saved.setQrUrl(qrUrl);
         Reserve updated = reserveRepository.save(saved);

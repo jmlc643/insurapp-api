@@ -2,6 +2,7 @@ package com.upao.insurApp.config;
 
 import com.upao.insurApp.services.JwtDetailsService;
 import com.upao.insurApp.utils.JwtUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,12 +36,19 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity.
                 csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(eh -> eh.authenticationEntryPoint(
+                        (request, response, authException) -> {
+                            response.setContentType("application/json");
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.getWriter().write("{\"error\": \"No autorizado - token inválido o ausente\"}");
+                        }))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.GET, "/api/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.PATCH, "/api/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     auth.requestMatchers("/doc/**", "/v3/api-docs/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/reservations/validate-info").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
