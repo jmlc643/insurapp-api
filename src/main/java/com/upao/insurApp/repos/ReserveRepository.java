@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReserveRepository extends JpaRepository<Reserve, Integer> {
@@ -17,4 +18,5 @@ public interface ReserveRepository extends JpaRepository<Reserve, Integer> {
     @Query("SELECT r FROM Reserve r WHERE r.field.fieldId = :field_id AND r.bookingDate = :bookingDate")
     List<Reserve> findByFieldIdAndBookingDate(@Param("field_id") Integer fieldId, @Param("bookingDate") LocalDate bookingDate);
 
+    Optional<Reserve> findByQrUrl(String qrUrl);
 }

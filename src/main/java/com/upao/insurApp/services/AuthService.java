@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -77,7 +78,13 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String accessToken = jwtUtils.generateToken(authentication);
         jwtUtils.validateJWT(accessToken);
-        return new AuthResponseDTO(accessToken);
+
+        String role = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse("NO_ROLE");
+
+        return new AuthResponseDTO(accessToken, role);
     }
 
     public Void passwordForgotten(PasswordForgottenRequest request) throws MessagingException {

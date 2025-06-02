@@ -14,6 +14,8 @@ public class ReserveResponseDTO {
     private Integer totalPrice;
     private FieldResponseDTO fieldId;
     private Integer userId;
+    private String qrUrl;
+    private Boolean isValidated;
 
     public ReserveResponseDTO(Reserve reserve) {
         this.reserveId = reserve.getReserveId();
@@ -23,34 +25,26 @@ public class ReserveResponseDTO {
         this.totalPrice = reserve.getTotalPrice();
         this.fieldId = new FieldResponseDTO(reserve.getField());
         this.userId = reserve.getUser().getUserId();
+        this.qrUrl = reserve.getQrUrl();
+        this.isValidated = reserve.getIsValidated();
     }
 
-    public Integer getReserveId() {
-        return reserveId;
-    }
+    public Integer getReserveId() {return reserveId;}
 
-    public LocalDate getBookingDate() {
-        return bookingDate;
-    }
+    public LocalDate getBookingDate() {return bookingDate;}
 
-    public LocalTime getTimetableStart() {
-        return timetableStart;
-    }
+    public LocalTime getTimetableStart() {return timetableStart;}
 
-    public LocalTime getTimetableEnd() {
-        return timetableEnd;
-    }
+    public LocalTime getTimetableEnd() {return timetableEnd;}
 
-    public Integer getTotalPrice() {
-        return totalPrice;
-    }
+    public Integer getTotalPrice() {return totalPrice;}
 
-    public FieldResponseDTO getFieldId() {
-        return fieldId;
-    }
+    public FieldResponseDTO getFieldId() {return fieldId;}
 
-    public Integer getUserId() {
-        return userId;
-    }
+    public Integer getUserId() {return userId;}
+
+    public String getQrUrl() {return qrUrl;}
+
+    public Boolean getIsValidated() {return isValidated;}
 }
 
