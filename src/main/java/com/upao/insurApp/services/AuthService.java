@@ -22,6 +22,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,7 +59,7 @@ public class AuthService {
         return null;
     }
 
-    public Void validateCode(String code) {
+    public AuthResponseDTO validateCode(String code) {
         Code lastCode = codeRepository.findByCode(code).orElseThrow(() -> new ResourceNotExistsException("El codigo enviado no existe"));
         if (lastCode.getStatus() == EStatus.EXPIRED || lastCode.getStatus() == EStatus.VERIFIED) {
             throw new ExpiredCodeException("El código ya fue utilizado o esta expirado");
@@ -70,11 +71,16 @@ public class AuthService {
         }
         lastCode.setStatus(EStatus.VERIFIED);
         codeRepository.save(lastCode);
-        return null;
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+lastCode.getUser().getRole().name());
+        return generateAuthToken(new UsernamePasswordAuthenticationToken(lastCode.getUser().getUserId(), lastCode.getUser().getPassword(), Collections.singletonList(authority)));
     }
 
     public AuthResponseDTO login(AuthRequestDTO request){
         Authentication authentication = authenticate(request.getEmail(), request.getPassword());
+        return generateAuthToken(authentication);
+    }
+
+    private AuthResponseDTO generateAuthToken(Authentication authentication) {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String accessToken = jwtUtils.generateToken(authentication);
         jwtUtils.validateJWT(accessToken);
