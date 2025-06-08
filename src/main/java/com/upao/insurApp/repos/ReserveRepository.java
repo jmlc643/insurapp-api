@@ -19,4 +19,6 @@ public interface ReserveRepository extends JpaRepository<Reserve, Integer> {
     List<Reserve> findByFieldIdAndBookingDate(@Param("field_id") Integer fieldId, @Param("bookingDate") LocalDate bookingDate);
 
     Optional<Reserve> findByQrUrl(String qrUrl);
+
+    List<Reserve> findByUserUserId(Integer userId);
 }
