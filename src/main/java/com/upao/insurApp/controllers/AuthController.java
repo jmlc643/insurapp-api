@@ -20,7 +20,7 @@ public class AuthController {
     @Autowired private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody @Valid RegisterUserRequest request) throws MessagingException {
+    public ResponseEntity<Void> register(@RequestBody @Valid RegisterUserRequest request) {
         return new ResponseEntity<>(authService.register(request), HttpStatus.CREATED);
     }
 
@@ -35,7 +35,7 @@ public class AuthController {
     }
 
     @PostMapping("/password-forgotten")
-    public ResponseEntity<Void> passwordForgotten(@RequestBody @Valid PasswordForgottenRequest request) throws MessagingException {
+    public ResponseEntity<Void> passwordForgotten(@RequestBody @Valid PasswordForgottenRequest request) {
         return new ResponseEntity<>(authService.passwordForgotten(request), HttpStatus.OK);
     }
 

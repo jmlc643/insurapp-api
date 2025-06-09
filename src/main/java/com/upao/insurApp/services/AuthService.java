@@ -15,7 +15,6 @@ import com.upao.insurApp.models.enums.TypeCode;
 import com.upao.insurApp.repos.CodeRepository;
 import com.upao.insurApp.repos.UserRepository;
 import com.upao.insurApp.utils.JwtUtils;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -43,7 +42,7 @@ public class AuthService {
     @Value("${email.sender}")
     private String mailFrom;
 
-    public Void register(RegisterUserRequest request) throws MessagingException {
+    public Void register(RegisterUserRequest request) {
         User user = new User(
                 null,
                 request.getName(),
@@ -93,7 +92,7 @@ public class AuthService {
         return new AuthResponseDTO(accessToken, role);
     }
 
-    public Void passwordForgotten(PasswordForgottenRequest request) throws MessagingException {
+    public Void passwordForgotten(PasswordForgottenRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new ResourceNotExistsException("El usuario no fue encontrado"));
         sendEmail(user, TypeCode.RECOVERY, "Recupera tu contraseña", "email/password-forgotten-email-template");
         return null;
@@ -140,7 +139,7 @@ public class AuthService {
         return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
     }
 
-    private void sendEmail(User user, TypeCode typeCode, String subject, String template) throws MessagingException {
+    private void sendEmail(User user, TypeCode typeCode, String subject, String template) {
         Random random = new Random();
         Optional<Code> lastCode = codeRepository.findFirstByUserAndTypeCodeOrderByCodeIdDesc(user, typeCode);
         lastCode.ifPresent(code -> codeRepository.delete(code));
