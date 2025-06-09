@@ -2,11 +2,6 @@ package com.upao.insurApp.services;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.Refund;
-import com.upao.insurApp.dto.payment.CreatePaymentDTO;
-import com.upao.insurApp.dto.payment.PaymentCaptureResponse;
-import com.upao.insurApp.dto.payment.PaymentResponse;
-import com.upao.insurApp.dto.paypal.OrderCaptureResponse;
-import com.upao.insurApp.dto.paypal.OrderResponse;
 import com.upao.insurApp.dto.stripe.ReserveRequest;
 import com.upao.insurApp.dto.stripe.StripeResponse;
 import com.upao.insurApp.exceptions.ResourceNotExistsException;
@@ -15,7 +10,6 @@ import com.upao.insurApp.models.Reserve;
 import com.upao.insurApp.models.enums.PaymentStatus;
 import com.upao.insurApp.repos.PaymentRepository;
 import com.upao.insurApp.repos.ReserveRepository;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
