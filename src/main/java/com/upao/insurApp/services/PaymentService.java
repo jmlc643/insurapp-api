@@ -1,10 +1,14 @@
 package com.upao.insurApp.services;
 
+import com.stripe.exception.StripeException;
+import com.stripe.model.Refund;
 import com.upao.insurApp.dto.payment.CreatePaymentDTO;
 import com.upao.insurApp.dto.payment.PaymentCaptureResponse;
 import com.upao.insurApp.dto.payment.PaymentResponse;
 import com.upao.insurApp.dto.paypal.OrderCaptureResponse;
 import com.upao.insurApp.dto.paypal.OrderResponse;
+import com.upao.insurApp.dto.stripe.ReserveRequest;
+import com.upao.insurApp.dto.stripe.StripeResponse;
 import com.upao.insurApp.exceptions.ResourceNotExistsException;
 import com.upao.insurApp.models.Payment;
 import com.upao.insurApp.models.Reserve;
@@ -22,25 +26,17 @@ public class PaymentService {
 
     @Autowired private PaymentRepository paymentRepository;
     @Autowired private ReserveRepository reserveRepository;
-    @Autowired private PayPalService payPalService;
+    @Autowired private StripeService stripeService;
 
-    public PaymentResponse generatePayment(CreatePaymentDTO request) {
-        Reserve reserve = reserveRepository.findById(request.getReserveId()).orElseThrow(() -> new ResourceNotExistsException("La reserva no existe"));
+    public StripeResponse generatePayment(ReserveRequest request, Integer id) throws StripeException {
+        Reserve reserve = reserveRepository.findById(id).orElseThrow(() -> new ResourceNotExistsException("La reserva no existe"));
         Payment payment = new Payment(null, reserve.getTotalPrice(), LocalDateTime.now(), PaymentStatus.PENDING, reserve);
         paymentRepository.save(payment);
-        OrderResponse order = payPalService.createOrder(payment.getPaymentId(), request.getReturnUrl(), request.getCancelUrl());
 
-        String paypalUrl = order
-                .getLinks()
-                .stream()
-                .filter(link -> link.getRel().equals("approve"))
-                .findFirst()
-                .orElseThrow(RuntimeException::new)
-                .getHref();
-
-        return new PaymentResponse(paypalUrl);
+        return stripeService.getReserveData(request);
     }
 
+    /*
     public PaymentCaptureResponse captureOrder(String orderId) throws MessagingException {
         OrderCaptureResponse orderCapture = payPalService.captureOrder(orderId);
         boolean completed = orderCapture.getStatus().equals("COMPLETED");
@@ -64,5 +60,10 @@ public class PaymentService {
 
         payment.setStatus(PaymentStatus.PAID);
         paymentRepository.save(payment);
+    }
+     */
+
+    public Refund refundReserve(String paymentIntent) throws StripeException {
+        return stripeService.refundReserve(paymentIntent);
     }
 }

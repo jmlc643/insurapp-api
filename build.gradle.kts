@@ -35,6 +35,7 @@ dependencies {
 	implementation("com.google.zxing:core:3.5.1")
 	implementation("com.google.zxing:javase:3.5.1")
 	implementation("com.cloudinary:cloudinary-http44:1.33.0")
+	implementation("com.stripe:stripe-java:29.2.0")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
