@@ -69,7 +69,7 @@ public class ReserveController {
         Reserve reserve = reserveService.mapToReserve(dto, userOpt.get(), fieldOpt.get());
         reserve.setStatus(RStatus.PENDING);
         Reserve saved = reserveService.createReservation(reserve);
-        return ResponseEntity.ok(new ReserveResponseDTO(saved));
+        return ResponseEntity.ok(new ReserveDTO(saved));
     }
 
     // Se valida como rol ADMIN la reserva
