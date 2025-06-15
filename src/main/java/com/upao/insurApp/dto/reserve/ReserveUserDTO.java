@@ -23,6 +23,7 @@ public class ReserveUserDTO {
     private Integer totalPrice;
     private String qrUrl;
     private Boolean isValidated;
+    private String status;
 
     private FieldSimpleDTO field;
     private List<PaymentDTO> payments;
@@ -34,6 +35,7 @@ public class ReserveUserDTO {
         this.totalPrice = reserve.getTotalPrice();
         this.qrUrl = reserve.getQrUrl();
         this.isValidated = reserve.getIsValidated();
+        this.status = reserve.getStatus().toString();
         this.field = new FieldSimpleDTO(reserve.getField());
         this.payments = reserve.getPayments() != null
                 ? reserve.getPayments().stream().map(PaymentDTO::new).collect(Collectors.toList())

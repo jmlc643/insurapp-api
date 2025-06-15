@@ -19,7 +19,6 @@ public class ReserveService {
 
     private final ReserveRepository reserveRepository;
     private final QrCodeService qrCodeService;
-    private final JwtUtils jwtUtils;
     @Value("${validate.reservation}")
     private String urlValidateReservation;
 
@@ -27,7 +26,6 @@ public class ReserveService {
     public ReserveService(ReserveRepository reserveRepository, QrCodeService qrCodeService, JwtUtils jwtUtils){
         this.reserveRepository = reserveRepository;
         this.qrCodeService = qrCodeService;
-        this.jwtUtils = jwtUtils;
     }
 
     public boolean isTimeSlotAvailable(Integer fieldId, LocalDate bookingDate, LocalTime timetableStart, LocalTime timetableEnd) {

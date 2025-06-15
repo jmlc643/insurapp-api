@@ -4,6 +4,7 @@ import com.upao.insurApp.dto.field.FieldSimpleDTO;
 import com.upao.insurApp.dto.payment.PaymentDTO;
 import com.upao.insurApp.dto.user.ProfileDTO;
 import com.upao.insurApp.models.Reserve;
+import com.upao.insurApp.models.enums.RStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class ReserveDTO {
     private LocalTime timetableEnd;
     private Integer totalPrice;
     private String qrUrl;
+    private String status;
     private Boolean isValidated;
 
     private FieldSimpleDTO field;
@@ -36,6 +38,7 @@ public class ReserveDTO {
         this.totalPrice = reserve.getTotalPrice();
         this.qrUrl = reserve.getQrUrl();
         this.isValidated = reserve.getIsValidated();
+        this.status = reserve.getStatus().toString();
 
         this.field = new FieldSimpleDTO(reserve.getField());
 

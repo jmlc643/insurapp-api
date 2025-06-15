@@ -8,6 +8,7 @@ import com.upao.insurApp.dto.reserve.ReserveResponseDTO;
 import com.upao.insurApp.models.Field;
 import com.upao.insurApp.models.Reserve;
 import com.upao.insurApp.models.User;
+import com.upao.insurApp.models.enums.RStatus;
 import com.upao.insurApp.repos.FieldRepository;
 import com.upao.insurApp.repos.ReserveRepository;
 import com.upao.insurApp.repos.UserRepository;
@@ -66,6 +67,7 @@ public class ReserveController {
         }
 
         Reserve reserve = reserveService.mapToReserve(dto, userOpt.get(), fieldOpt.get());
+        reserve.setStatus(RStatus.PENDING);
         Reserve saved = reserveService.createReservation(reserve);
         return ResponseEntity.ok(new ReserveResponseDTO(saved));
     }

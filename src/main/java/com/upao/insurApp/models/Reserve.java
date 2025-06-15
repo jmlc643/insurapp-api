@@ -1,6 +1,7 @@
 package com.upao.insurApp.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.upao.insurApp.models.enums.RStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,10 @@ public class Reserve {
 
     @Column(name = "qr_url")
     private String qrUrl;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private RStatus status;
 
     @Column(name = "is_validated")
     private Boolean isValidated = false;
