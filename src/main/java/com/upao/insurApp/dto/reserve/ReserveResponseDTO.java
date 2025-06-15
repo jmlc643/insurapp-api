@@ -16,6 +16,7 @@ public class ReserveResponseDTO {
     private Integer userId;
     private String qrUrl;
     private Boolean isValidated;
+    private String status;
 
     public ReserveResponseDTO(Reserve reserve) {
         this.reserveId = reserve.getReserveId();
@@ -27,6 +28,7 @@ public class ReserveResponseDTO {
         this.userId = reserve.getUser().getUserId();
         this.qrUrl = reserve.getQrUrl();
         this.isValidated = reserve.getIsValidated();
+        this.status = reserve.getStatus().toString();
     }
 
     public Integer getReserveId() {return reserveId;}
@@ -46,5 +48,7 @@ public class ReserveResponseDTO {
     public String getQrUrl() {return qrUrl;}
 
     public Boolean getIsValidated() {return isValidated;}
+
+    public String getStatus() {return status;}
 }
 
