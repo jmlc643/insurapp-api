@@ -114,7 +114,7 @@ public class AuthService {
         return null;
     }
 
-    private Authentication authenticate(String email, String password){
+    public Authentication authenticate(String email, String password){
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
         if(userDetails == null){
