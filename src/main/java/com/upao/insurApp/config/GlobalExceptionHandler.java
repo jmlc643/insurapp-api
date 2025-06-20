@@ -72,4 +72,9 @@ public class GlobalExceptionHandler {
         String errorMessage = "El método " + ex.getMethod() + " no está soportado para esta ruta.";
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
