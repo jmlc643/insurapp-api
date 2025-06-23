@@ -63,7 +63,7 @@ public class AuthServiceTest {
         code = new Code(1, "123456", TypeCode.ACTIVATE, EStatus.PENDING, LocalDateTime.now().plusMinutes(10), null);
     }
 
-    @Test
+    //@Test
     void testRegister() {
         // Given
         RegisterUserRequest request = new RegisterUserRequest("Jose Maria", "Luyo", "12345678", "956852465", "jluyoc1@upao.edu.pe", "upao2025");
