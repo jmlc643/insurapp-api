@@ -4,6 +4,7 @@ import com.upao.insurApp.dto.reserve.ReserveRequestDTO;
 import com.upao.insurApp.models.Field;
 import com.upao.insurApp.models.Reserve;
 import com.upao.insurApp.models.User;
+import com.upao.insurApp.models.enums.RStatus;
 import com.upao.insurApp.repos.ReserveRepository;
 import com.upao.insurApp.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,16 @@ public class ReserveService {
 
         reserve.setIsValidated(true);
         return reserveRepository.save(reserve);
+    }
+
+    public Void updateReservationStatus(Integer id, String status) {
+        Reserve reserve = reserveRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+        // Actualizar el estado de la reserva
+        reserve.setStatus(RStatus.valueOf(status.toUpperCase()));
+        reserveRepository.save(reserve);
+        return null;
     }
 
 }

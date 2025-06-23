@@ -1,6 +1,8 @@
 package com.upao.insurApp.repos;
 
 import com.upao.insurApp.models.Reserve;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,5 +22,5 @@ public interface ReserveRepository extends JpaRepository<Reserve, Integer> {
 
     Optional<Reserve> findByQrUrl(String qrUrl);
 
-    List<Reserve> findByUserUserId(Integer userId);
+    List<Reserve> findByUserUserIdOrderByReserveIdDesc(Integer userId);
 }

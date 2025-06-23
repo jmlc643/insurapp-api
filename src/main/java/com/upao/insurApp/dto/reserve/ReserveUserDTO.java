@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReserveUserDTO {
+    private Integer reserveId;
     private LocalDate bookingDate;
     private LocalTime timetableStart;
     private LocalTime timetableEnd;
@@ -29,6 +30,7 @@ public class ReserveUserDTO {
     private List<PaymentDTO> payments;
 
     public ReserveUserDTO(Reserve reserve) {
+        this.reserveId = reserve.getReserveId();
         this.bookingDate = reserve.getBookingDate();
         this.timetableStart = reserve.getTimetableStart();
         this.timetableEnd = reserve.getTimetableEnd();
