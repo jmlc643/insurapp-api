@@ -8,6 +8,9 @@ import com.upao.insurApp.models.Reserve;
 import com.upao.insurApp.repos.ReserveRepository;
 import com.upao.insurApp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,8 +35,7 @@ public class UserController {
     public ResponseEntity<List<ReserveUserDTO>> getMyReserves() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer userId = Integer.valueOf(authentication.getName());
-
-        List<Reserve> userReserves = reserveRepository.findByUserUserId(userId);
+        List<Reserve> userReserves = reserveRepository.findByUserUserIdOrderByReserveIdDesc(userId);
         List<ReserveUserDTO> dtos = userReserves.stream()
                 .map(ReserveUserDTO::new)
                 .toList();

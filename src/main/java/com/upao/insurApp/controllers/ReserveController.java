@@ -96,5 +96,10 @@ public class ReserveController {
         return ResponseEntity.ok(dto);
     }
 
+    @PatchMapping("/status/{id}")
+    public ResponseEntity<Void> updateReservationStatus(@PathVariable Integer id, @RequestParam("status") String status) {
+        return new ResponseEntity<>(reserveService.updateReservationStatus(id, status), HttpStatus.NO_CONTENT);
+    }
+
 }
 
