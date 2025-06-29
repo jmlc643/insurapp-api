@@ -14,4 +14,5 @@ public class StripeResponse {
     private String ephemeralSecret;
     private String id;
     private String paymentIntentId;
+    private Integer paymentId;
 }

@@ -1,7 +1,6 @@
 package com.upao.insurApp.services;
 
 import com.stripe.exception.StripeException;
-import com.stripe.model.Refund;
 import com.upao.insurApp.dto.stripe.ReserveRequest;
 import com.upao.insurApp.dto.stripe.StripeResponse;
 import com.upao.insurApp.exceptions.ResourceNotExistsException;
@@ -27,37 +26,15 @@ public class PaymentService {
         Payment payment = new Payment(null, reserve.getTotalPrice(), LocalDateTime.now(), PaymentStatus.PENDING, reserve);
         paymentRepository.save(payment);
 
-        return stripeService.getReserveData(request);
+        return stripeService.getReserveData(request, payment.getPaymentId());
     }
 
-    /*
-    public PaymentCaptureResponse captureOrder(String orderId) throws MessagingException {
-        OrderCaptureResponse orderCapture = payPalService.captureOrder(orderId);
-        boolean completed = orderCapture.getStatus().equals("COMPLETED");
-
-        PaymentCaptureResponse paymentCaptureResponse = new PaymentCaptureResponse();
-        paymentCaptureResponse.setCompleted(completed);
-
-        if (completed) {
-            String purchaseIdStr = orderCapture.getPurchaseUnits().getFirst().getReferenceId();
-            confirmPurchase(Integer.parseInt(purchaseIdStr));
-            paymentCaptureResponse.setPurchaseId(Integer.parseInt(purchaseIdStr));
-            // Enviar email o notificacion
-        }
-
-        return paymentCaptureResponse;
-    }
-
-    private void confirmPurchase(Integer paymentId) {
+    public Void updatePaymentStatus(Integer paymentId, String status) {
         Payment payment = paymentRepository.findById(paymentId)
-                .orElseThrow(() -> new ResourceNotExistsException("Pago no encontrado"));
-
-        payment.setStatus(PaymentStatus.PAID);
+                .orElseThrow(() -> new ResourceNotExistsException("El pago no existe"));
+        PaymentStatus paymentStatus = PaymentStatus.valueOf(status.toUpperCase());
+        payment.setStatus(paymentStatus);
         paymentRepository.save(payment);
-    }
-     */
-
-    public Refund refundReserve(String paymentIntent) throws StripeException {
-        return stripeService.refundReserve(paymentIntent);
+        return null;
     }
 }

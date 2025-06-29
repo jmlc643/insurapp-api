@@ -21,7 +21,7 @@ public class StripeService {
     @Value("${stripe.secretkey}")
     private String secretKey;
 
-    public StripeResponse getReserveData(ReserveRequest reserveRequest) throws StripeException {
+    public StripeResponse getReserveData(ReserveRequest reserveRequest, Integer paymentId) throws StripeException {
         Stripe.apiKey = secretKey;
 
         // Creacion del objeto Customer
@@ -54,7 +54,7 @@ public class StripeService {
 
         PaymentIntent paymentIntent = PaymentIntent.create(paymentIntentParams);
 
-        return new StripeResponse(paymentIntent.getClientSecret(), ephemeralKey.getSecret(), customer.getId(), paymentIntent.getId());
+        return new StripeResponse(paymentIntent.getClientSecret(), ephemeralKey.getSecret(), customer.getId(), paymentIntent.getId(), paymentId);
     }
 
     public Refund refundReserve(String paymentIntent) throws StripeException {
